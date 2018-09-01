@@ -23,8 +23,8 @@ public class SecurityConfig {
         return http
                 .csrf().disable()
                 .authorizeExchange()
-                .pathMatchers("/*").permitAll()
-                .pathMatchers("/api/*").authenticated()
+                .pathMatchers("/public").permitAll()
+                .pathMatchers("/**").authenticated()
                 .and().httpBasic()
                 .and()
                 .build();
@@ -33,7 +33,7 @@ public class SecurityConfig {
     @Bean
     ReactiveUserDetailsService userDetailService(PasswordEncoder encoder) {
         User.UserBuilder user = User.withUsername("username")
-                .roles("USER_ROLE")
+                .roles("USER")
                 .password(encoder.encode("password"));
 
         return new MapReactiveUserDetailsService(user.build());

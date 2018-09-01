@@ -3,6 +3,8 @@ package pl.sparkidea.security.securedapp.controllers;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import pl.sparkidea.security.securedapp.dto.SimpleResponse;
+
 import java.security.Principal;
 
 import reactor.core.publisher.Mono;
@@ -14,17 +16,16 @@ import reactor.core.publisher.Mono;
 @RestController
 public class SimpleController {
 
-    @GetMapping("/")
-    public Mono<String> getPublicResource() {
-        return Mono.just("public resource");
+    @GetMapping(value = "/public")
+    public Mono<SimpleResponse> getPublicResource() {
+        return Mono.just(new SimpleResponse("public resource"));
     }
 
-    @GetMapping("/api/secured")
-    public Mono<String> getSecuredResource(Mono<Principal> principal) {
+    @GetMapping(value = "/api/secured")
+    public Mono<SimpleResponse> getSecuredResource(Mono<Principal> principal) {
 
         return principal
-                .map(Principal::toString)
-                .map(userId -> "secured resource requested by: " + userId);
+                .map(user -> new SimpleResponse("secured resource requested", user));
 
     }
 
