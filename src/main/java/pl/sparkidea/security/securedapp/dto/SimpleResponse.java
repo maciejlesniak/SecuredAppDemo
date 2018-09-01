@@ -1,5 +1,8 @@
 package pl.sparkidea.security.securedapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.security.Principal;
 
 /**
@@ -7,14 +10,20 @@ import java.security.Principal;
  */
 public class SimpleResponse {
 
+    private final static String RESPONSE = "response";
+    private final static String PRINCIPAL = "principal";
+
     private final String response;
     private final Principal principal;
 
-    public SimpleResponse(String response) {
+    @JsonCreator
+    public SimpleResponse(@JsonProperty(RESPONSE) String response) {
         this(response, null);
     }
 
-    public SimpleResponse(String response, Principal principal) {
+    @JsonCreator
+    public SimpleResponse(@JsonProperty(RESPONSE) String response,
+                          @JsonProperty(PRINCIPAL) Principal principal) {
         this.response = response;
         this.principal = principal;
     }
